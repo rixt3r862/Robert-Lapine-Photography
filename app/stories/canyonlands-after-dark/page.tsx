@@ -32,10 +32,9 @@ export default function CanyonlandsStory() {
           <p>Once darkness settles in, the sky stops being a backdrop. Stars define the space above the formations and reveal the true scale of the country below.</p>
         </div>
         <figure className="story-wide"><img src="/photos/canyon-45.jpg" alt="Wide Canyonlands landscape beneath an expansive sky" /><figcaption>Ancient Ground · Canyonlands, Utah</figcaption></figure>
-        <div className="story-end"><p>Explore the complete sequence.</p><Link className="button-dark" href="/collections/canyonlands">Canyonlands collection →</Link></div>
+        <div className="story-end"><p>Explore the complete sequence.</p><a className="button-dark" href="/collections/canyonlands">Canyonlands collection →</a></div>
       </article>
       <SiteFooter />
     </main>
   );
 }
-import Link from "next/link";
