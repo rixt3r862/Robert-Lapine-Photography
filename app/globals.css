@@ -521,6 +521,17 @@ footer p {
   aspect-ratio: 16 / 10;
 }
 
+.index-card-image {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.index-card-image img {
+  inset: 0;
+  position: absolute;
+}
+
 .collection-card:nth-child(4n + 2) .collection-image,
 .collection-card:nth-child(4n + 3) .collection-image {
   aspect-ratio: 4 / 5;
