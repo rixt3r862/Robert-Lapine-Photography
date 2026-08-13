@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { GalleryExplorer } from "../components/GalleryExplorer";
+import Link from "next/link";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
 import { collections, photos } from "../data";
@@ -22,7 +23,7 @@ export default function CollectionsPage() {
         {collections.map((collection, index) => {
           const count = photos.filter((photo) => photo.collection === collection.slug).length;
           return (
-            <a href={`/collections/${collection.slug}`} className="index-card" key={collection.slug}>
+            <Link href={`/collections/${collection.slug}`} className="index-card" key={collection.slug}>
               <span className="index-card-image"><img src={collection.cover} alt="" /></span>
               <span className="index-card-number">{String(index + 1).padStart(2, "0")}</span>
               <span className="index-card-copy">
@@ -30,7 +31,7 @@ export default function CollectionsPage() {
                 <strong>{collection.name}</strong>
                 <span>{collection.description}</span>
               </span>
-            </a>
+            </Link>
           );
         })}
       </section>

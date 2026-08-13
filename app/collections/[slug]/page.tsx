@@ -45,9 +45,10 @@ export default async function CollectionPage({ params }: { params: Promise<{ slu
       </section>
       <nav className="collection-next" aria-label="More collections">
         <span>Continue exploring</span>
-        <a href="/collections">All collections →</a>
+        <Link href="/collections">All collections →</Link>
       </nav>
       <SiteFooter />
     </main>
   );
 }
+import Link from "next/link";

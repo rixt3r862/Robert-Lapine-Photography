@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { GalleryExplorer } from "./components/GalleryExplorer";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
@@ -31,7 +32,7 @@ export default function Home() {
           <p className="eyebrow">Landscape &amp; wildlife photography</p>
           <h1 id="hero-title">Chasing the light<br /><em>out West.</em></h1>
           <p className="hero-intro">Robert Lapine photographs the vast, quiet drama of America&apos;s wild places—from red-rock nights to open-range mornings.</p>
-          <a className="text-link" href="/collections">Explore the collections <span aria-hidden="true">→</span></a>
+          <Link className="text-link" href="/collections">Explore the collections <span aria-hidden="true">→</span></Link>
         </div>
         <div className="hero-caption"><span>Featured</span><span>Canyonlands, Utah</span></div>
       </section>
@@ -53,7 +54,7 @@ export default function Home() {
           {collections.map((collection, index) => {
             const count = photos.filter((photo) => photo.collection === collection.slug).length;
             return (
-              <a className="collection-card" href={`/collections/${collection.slug}`} key={collection.slug}>
+              <Link className="collection-card" href={`/collections/${collection.slug}`} key={collection.slug}>
                 <span className="collection-image"><img src={collection.cover} alt="" loading={index > 2 ? "lazy" : "eager"} /></span>
                 <span className="collection-index">{String(index + 1).padStart(2, "0")} / {String(collections.length).padStart(2, "0")}</span>
                 <span className="collection-card-copy">
@@ -61,11 +62,11 @@ export default function Home() {
                   <strong>{collection.name}</strong>
                   <span>{collection.description}</span>
                 </span>
-              </a>
+              </Link>
             );
           })}
         </div>
-        <a className="text-link dark-link" href="/collections">View all collections <span aria-hidden="true">→</span></a>
+        <Link className="text-link dark-link" href="/collections">View all collections <span aria-hidden="true">→</span></Link>
       </section>
 
       <section className="work" id="work" aria-labelledby="work-title">
@@ -76,7 +77,7 @@ export default function Home() {
         <GalleryExplorer items={selectedPhotos} />
         <div className="collection-cta">
           <p>Twenty-five photographs now live here.</p>
-          <a href="/collections">Explore the complete onsite portfolio <span aria-hidden="true">→</span></a>
+          <Link href="/collections">Explore the complete onsite portfolio <span aria-hidden="true">→</span></Link>
         </div>
       </section>
 
@@ -86,7 +87,7 @@ export default function Home() {
           <p className="eyebrow">Field story · Canyonlands</p>
           <h2 id="story-title">When the desert goes dark, the stone begins to glow.</h2>
           <p>A visual essay about scale, patience, and the celestial light that transforms Canyonlands after sunset.</p>
-          <a className="text-link" href="/stories/canyonlands-after-dark">Read the photo story <span aria-hidden="true">→</span></a>
+          <Link className="text-link" href="/stories/canyonlands-after-dark">Read the photo story <span aria-hidden="true">→</span></Link>
         </div>
       </section>
 
@@ -98,7 +99,7 @@ export default function Home() {
           <p>Robert&apos;s photography is rooted in attention: watching weather move across a ridge, waiting for first light to find the canyon walls, and leaving room for the landscape to speak for itself.</p>
           <p>His archive traces years on the road through Canyonlands, Yellowstone, Grand Teton, Capitol Reef, and the quiet country in between.</p>
           <div className="about-actions">
-            <a className="text-link" href="/contact">Prints &amp; licensing <span aria-hidden="true">→</span></a>
+            <Link className="text-link" href="/contact">Prints &amp; licensing <span aria-hidden="true">→</span></Link>
             <a className="quiet-link" href={flickrUrl} target="_blank" rel="noreferrer">Browse the complete Flickr archive ↗</a>
           </div>
         </div>
@@ -108,7 +109,7 @@ export default function Home() {
         <p className="eyebrow dark">Bring the work home</p>
         <h2 id="contact-title">Interested in a print or licensing a photograph?</h2>
         <p>Start with the image title and intended use. Robert can help identify the right photograph and format.</p>
-        <a className="button-dark" href="/contact">Contact &amp; licensing →</a>
+        <Link className="button-dark" href="/contact">Contact &amp; licensing →</Link>
       </section>
 
       <SiteFooter />
