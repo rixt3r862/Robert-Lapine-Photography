@@ -689,7 +689,7 @@ footer p {
   z-index: 100;
 }
 
-.lightbox-backdrop {
+.lightbox button.lightbox-backdrop {
   background: rgba(8, 9, 8, 0.96);
   border: 0;
   cursor: zoom-out;

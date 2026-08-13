@@ -18,6 +18,9 @@ export function GalleryExplorer({
     [activeFilter, items],
   );
   const activePhoto = activeIndex === null ? null : visible[activeIndex];
+  const activePhotoSrc = activePhoto && typeof window !== "undefined" && window.location.pathname.startsWith("/Robert-Lapine-Photography")
+    ? `/Robert-Lapine-Photography${activePhoto.src}`
+    : activePhoto?.src;
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -66,7 +69,7 @@ export function GalleryExplorer({
           >
             <span className="photo-frame">
               <img src={photo.src} alt={photo.alt} loading={index > 5 ? "lazy" : "eager"} />
-              <span className="view-mark" aria-hidden="true">＋</span>
+              <span className="view-mark" aria-hidden="true">+</span>
             </span>
             <span className="photo-meta">
               <span>{photo.title}</span>
@@ -84,7 +87,7 @@ export function GalleryExplorer({
               <span>{String(activeIndex + 1).padStart(2, "0")} / {String(visible.length).padStart(2, "0")}</span>
               <button onClick={() => setActiveIndex(null)} aria-label="Close photograph viewer">Close ×</button>
             </div>
-            <img src={activePhoto.src} alt={activePhoto.alt} />
+            <img src={activePhotoSrc} alt={activePhoto.alt} />
             <div className="lightbox-caption">
               <div>
                 <h3>{activePhoto.title}</h3>
@@ -104,4 +107,3 @@ export function GalleryExplorer({
     </>
   );
 }
-
