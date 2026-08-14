@@ -16,7 +16,7 @@ export default function CollectionsPage() {
       <header className="page-hero">
         <p className="eyebrow dark">The portfolio</p>
         <h1>Collections</h1>
-        <p>Landscapes, wildlife, travel, documentary history, and professional aerospace work—421 photographs organized for onsite exploration.</p>
+        <p>Landscapes, wildlife, travel, documentary history, and professional aerospace work.</p>
       </header>
       <section className="collection-index-grid" aria-label="Photography collections">
         {collections.map((collection, index) => {
