@@ -12,6 +12,14 @@ const collectionSlugs = [
   "fish-lake",
   "bison-roundup",
   "capitol-reef",
+  "western-landscapes",
+  "beautiful-world",
+  "as-i-see-it",
+  "wildlife",
+  "vietnam",
+  "aerospace-career",
+  "europe-travel",
+  "hdr-studies",
 ];
 const routes = [
   "/",

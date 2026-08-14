@@ -12,15 +12,24 @@ export function GalleryExplorer({
   filters?: boolean;
 }) {
   const [activeFilter, setActiveFilter] = useState("all");
+  const [query, setQuery] = useState("");
+  const [limit, setLimit] = useState(items.length > 48 ? 36 : items.length);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const visible = useMemo(
-    () => activeFilter === "all" ? items : items.filter((photo) => photo.collection === activeFilter),
-    [activeFilter, items],
+    () => items.filter((photo) => {
+      const matchesCollection = activeFilter === "all" || photo.collection === activeFilter || photo.collectionSlugs?.includes(activeFilter);
+      const search = query.trim().toLowerCase();
+      const matchesSearch = !search || [photo.title, photo.location, photo.year, ...(photo.themes || [])].join(" ").toLowerCase().includes(search);
+      return matchesCollection && matchesSearch;
+    }),
+    [activeFilter, items, query],
   );
+  const displayed = visible.slice(0, limit);
   const activePhoto = activeIndex === null ? null : visible[activeIndex];
-  const activePhotoSrc = activePhoto && typeof window !== "undefined" && window.location.pathname.startsWith("/Robert-Lapine-Photography")
-    ? `/Robert-Lapine-Photography${activePhoto.src}`
-    : activePhoto?.src;
+  const resolveAsset = (src?: string) => src && src.startsWith("/") && typeof window !== "undefined" && window.location.pathname.startsWith("/Robert-Lapine-Photography")
+    ? `/Robert-Lapine-Photography${src}`
+    : src;
+  const activePhotoSrc = resolveAsset(activePhoto?.src);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -39,36 +48,39 @@ export function GalleryExplorer({
 
   function changeFilter(slug: string) {
     setActiveFilter(slug);
+    setLimit(36);
     setActiveIndex(null);
   }
 
   return (
     <>
       {filters && (
-        <div className="gallery-filters" aria-label="Filter photographs by collection">
-          <button className={activeFilter === "all" ? "active" : ""} onClick={() => changeFilter("all")}>All work</button>
-          {collections.map((collection) => (
-            <button
-              className={activeFilter === collection.slug ? "active" : ""}
-              key={collection.slug}
-              onClick={() => changeFilter(collection.slug)}
-            >
-              {collection.name.replace(" After Dark", "").replace(" Country", "")}
-            </button>
-          ))}
+        <div className="archive-tools" aria-label="Search and filter photographs">
+          <label>
+            <span>Search the archive</span>
+            <input value={query} onChange={(event) => { setQuery(event.target.value); setLimit(36); setActiveIndex(null); }} placeholder="Place, title, year, or subject" type="search" />
+          </label>
+          <label>
+            <span>Collection</span>
+            <select value={activeFilter} onChange={(event) => changeFilter(event.target.value)}>
+              <option value="all">All 421 photographs</option>
+              {collections.map((collection) => <option value={collection.slug} key={collection.slug}>{collection.name}</option>)}
+            </select>
+          </label>
+          <p><strong>{visible.length}</strong> {visible.length === 1 ? "photograph" : "photographs"}</p>
         </div>
       )}
 
       <div className="gallery">
-        {visible.map((photo, index) => (
+        {displayed.map((photo, index) => (
           <button
             className={`photo-card ${photo.orientation === "portrait" ? "tall" : "wide"}`}
             key={photo.id}
             onClick={() => setActiveIndex(index)}
             aria-label={`Open ${photo.title}`}
           >
-            <span className="photo-frame">
-              <img src={photo.src} alt={photo.alt} loading={index > 5 ? "lazy" : "eager"} />
+            <span className="photo-frame" style={{ backgroundColor: photo.dominantColor }}>
+              <img src={resolveAsset(photo.thumb || photo.src)} alt={photo.alt} loading={index > 5 ? "lazy" : "eager"} decoding="async" />
               <span className="view-mark" aria-hidden="true">+</span>
             </span>
             <span className="photo-meta">
@@ -78,6 +90,13 @@ export function GalleryExplorer({
           </button>
         ))}
       </div>
+
+      {displayed.length < visible.length && (
+        <div className="archive-more">
+          <button onClick={() => setLimit((current) => Math.min(current + 36, visible.length))}>Show 36 more</button>
+          <span>Showing {displayed.length} of {visible.length}</span>
+        </div>
+      )}
 
       {activePhoto && activeIndex !== null && (
         <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${activePhoto.title} photograph viewer`}>

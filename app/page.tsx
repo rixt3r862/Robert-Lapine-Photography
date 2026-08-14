@@ -3,6 +3,8 @@ import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import { collections, flickrUrl, photos } from "./data";
 
+const featuredCollections = collections.filter((collection) => collection.featured);
+
 const selectedIds = [
   "52059513353",
   "52059513843",
@@ -47,15 +49,15 @@ export default function Home() {
             <p className="eyebrow dark">Explore by place</p>
             <h2 id="collections-title">Featured collections</h2>
           </div>
-          <p>Six bodies of work from across the American West, presented here in their own right.</p>
+          <p>Six featured bodies of work from a newly cataloged archive of 421 photographs.</p>
         </div>
         <div className="collection-grid">
-          {collections.map((collection, index) => {
-            const count = photos.filter((photo) => photo.collection === collection.slug).length;
+          {featuredCollections.map((collection, index) => {
+            const count = photos.filter((photo) => photo.collectionSlugs?.includes(collection.slug)).length;
             return (
               <a className="collection-card" href={`/collections/${collection.slug}`} key={collection.slug}>
                 <span className="collection-image"><img src={collection.cover} alt="" loading={index > 2 ? "lazy" : "eager"} /></span>
-                <span className="collection-index">{String(index + 1).padStart(2, "0")} / {String(collections.length).padStart(2, "0")}</span>
+                <span className="collection-index">{String(index + 1).padStart(2, "0")} / {String(featuredCollections.length).padStart(2, "0")}</span>
                 <span className="collection-card-copy">
                   <span className="collection-kicker">{collection.kicker} · {count} photographs</span>
                   <strong>{collection.name}</strong>
@@ -75,8 +77,8 @@ export default function Home() {
         </div>
         <GalleryExplorer items={selectedPhotos} />
         <div className="collection-cta">
-          <p>Twenty-five photographs now live here.</p>
-          <a href="/collections">Explore the complete onsite portfolio <span aria-hidden="true">→</span></a>
+          <p>All {photos.length} photographs now live here.</p>
+          <a href="/collections#archive-title">Search the complete onsite archive <span aria-hidden="true">→</span></a>
         </div>
       </section>
 
@@ -99,7 +101,7 @@ export default function Home() {
           <p>His archive traces years on the road through Canyonlands, Yellowstone, Grand Teton, Capitol Reef, and the quiet country in between.</p>
           <div className="about-actions">
             <a className="text-link" href="/contact">Prints &amp; licensing <span aria-hidden="true">→</span></a>
-            <a className="quiet-link" href={flickrUrl} target="_blank" rel="noreferrer">Browse the complete Flickr archive ↗</a>
+            <a className="quiet-link" href={flickrUrl} target="_blank" rel="noreferrer">View the source archive on Flickr ↗</a>
           </div>
         </div>
       </section>

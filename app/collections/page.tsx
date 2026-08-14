@@ -6,7 +6,7 @@ import { collections, photos } from "../data";
 
 export const metadata: Metadata = {
   title: "Collections | Robert Lapine Photography",
-  description: "Explore Robert Lapine's landscape and wildlife photography collections from across the American West.",
+  description: "Search and explore all 421 photographs in Robert Lapine's landscape, wildlife, documentary, travel, and professional archive.",
 };
 
 export default function CollectionsPage() {
@@ -16,11 +16,11 @@ export default function CollectionsPage() {
       <header className="page-hero">
         <p className="eyebrow dark">The portfolio</p>
         <h1>Collections</h1>
-        <p>Landscapes, wildlife, night skies, and the enduring character of the American West—organized by place and journey.</p>
+        <p>Landscapes, wildlife, travel, documentary history, and professional aerospace work—421 photographs organized for onsite exploration.</p>
       </header>
       <section className="collection-index-grid" aria-label="Photography collections">
         {collections.map((collection, index) => {
-          const count = photos.filter((photo) => photo.collection === collection.slug).length;
+          const count = photos.filter((photo) => photo.collectionSlugs?.includes(collection.slug)).length;
           return (
             <a href={`/collections/${collection.slug}`} className="index-card" key={collection.slug}>
               <span className="index-card-image"><img src={collection.cover} alt="" /></span>
@@ -37,7 +37,7 @@ export default function CollectionsPage() {
       <section className="work archive-work" aria-labelledby="archive-title">
         <div className="section-heading">
           <div><p className="eyebrow dark">Browse the archive</p><h2 id="archive-title">All photographs</h2></div>
-          <p>Filter by collection, then select any photograph for an onsite full-screen view.</p>
+          <p>Search by title, place, year, or subject. Filter by collection, then select any photograph for an onsite full-screen view.</p>
         </div>
         <GalleryExplorer items={photos} filters />
       </section>

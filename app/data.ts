@@ -1,3 +1,5 @@
+import flickrCatalog from "./flickr-catalog.json";
+
 export type Photo = {
   id: string;
   src: string;
@@ -8,6 +10,16 @@ export type Photo = {
   alt: string;
   orientation: "landscape" | "portrait";
   flickr: string;
+  thumb?: string;
+  description?: string;
+  dateTaken?: string;
+  collectionSlugs?: string[];
+  themes?: string[];
+  dominantColor?: string;
+  brightness?: number;
+  width?: number;
+  height?: number;
+  views?: number;
 };
 
 export type Collection = {
@@ -16,9 +28,14 @@ export type Collection = {
   kicker: string;
   description: string;
   cover: string;
+  featured?: boolean;
 };
 
 export const flickrUrl = "https://www.flickr.com/photos/carrera47/";
+
+function flickrCover(id: string) {
+  return flickrCatalog.photos.find((photo) => photo.id === id)?.src || flickrCatalog.photos[0].src;
+}
 
 export const collections: Collection[] = [
   {
@@ -27,6 +44,7 @@ export const collections: Collection[] = [
     kicker: "Utah · 2022",
     description: "Monumental stone, deep shadow, and a sky crowded with stars.",
     cover: "/photos/canyon-75.jpg",
+    featured: true,
   },
   {
     slug: "yellowstone",
@@ -34,6 +52,7 @@ export const collections: Collection[] = [
     kicker: "Wyoming · 2021",
     description: "Weather, wildlife, and the vast rhythms of the northern range.",
     cover: "/photos/yellowstone-45.jpg",
+    featured: true,
   },
   {
     slug: "grand-teton",
@@ -41,6 +60,7 @@ export const collections: Collection[] = [
     kicker: "Wyoming · 2021",
     description: "Weathered structures holding their ground beneath the Tetons.",
     cover: "/photos/teton-02.jpg",
+    featured: true,
   },
   {
     slug: "fish-lake",
@@ -48,6 +68,7 @@ export const collections: Collection[] = [
     kicker: "Utah · 2020",
     description: "Aspen light, quiet trails, and the brief brilliance of fall.",
     cover: "/photos/foliage-02.jpg",
+    featured: true,
   },
   {
     slug: "bison-roundup",
@@ -55,6 +76,7 @@ export const collections: Collection[] = [
     kicker: "American West · 2021",
     description: "Open land, moving herds, and dawn breaking over the basin.",
     cover: "/photos/bison-01.jpg",
+    featured: true,
   },
   {
     slug: "capitol-reef",
@@ -62,10 +84,67 @@ export const collections: Collection[] = [
     kicker: "Utah · 2020",
     description: "A study of red-rock geology, scale, and desert light.",
     cover: "/photos/capitol-02.jpg",
+    featured: true,
+  },
+  {
+    slug: "western-landscapes",
+    name: "Western Landscapes",
+    kicker: "American West · Archive",
+    description: "National parks, mountain water, desert roads, and the broad geography of the West.",
+    cover: flickrCover("50868556326"),
+  },
+  {
+    slug: "beautiful-world",
+    name: "Our Beautiful World",
+    kicker: "Places & light · Archive",
+    description: "Robert’s wide-ranging study of the natural world and the changing character of light.",
+    cover: flickrCover("8414795901"),
+  },
+  {
+    slug: "as-i-see-it",
+    name: "As I See It",
+    kicker: "Details & observations · Archive",
+    description: "Small scenes and easily missed details, photographed with an attentive and curious eye.",
+    cover: flickrCover("8416071794"),
+  },
+  {
+    slug: "wildlife",
+    name: "Wildlife as I See It",
+    kicker: "Wildlife · Archive",
+    description: "Encounters with the animals that inhabit Robert’s western landscapes.",
+    cover: flickrCover("8632415238"),
+  },
+  {
+    slug: "vietnam",
+    name: "My Vietnam Experience",
+    kicker: "Documentary · 1960s",
+    description: "A personal black-and-white record from Robert’s fifteen months in Vietnam.",
+    cover: flickrCover("8429109994"),
+  },
+  {
+    slug: "aerospace-career",
+    name: "Aerospace Career Archive",
+    kicker: "Professional work · Archive",
+    description: "A selected record from Robert’s career as a professional aerospace photographer.",
+    cover: flickrCover("8416096026"),
+  },
+  {
+    slug: "europe-travel",
+    name: "Europe & Travel",
+    kicker: "Europe · 2014–2015",
+    description: "Architecture, landscape, and daily observations gathered during travels through Europe.",
+    cover: flickrCover("16100312813"),
+  },
+  {
+    slug: "hdr-studies",
+    name: "HDR & Light Studies",
+    kicker: "Technique · Archive",
+    description: "High-dynamic-range experiments and studies in difficult or dramatic light.",
+    cover: flickrCover("9080012747"),
   },
 ];
 
-export const photos: Photo[] = [
+const curatedPhotos: Photo[] = [
   { id: "52059513843", src: "/photos/canyon-102.jpg", title: "Stone & Silence", location: "Canyonlands, Utah", year: "2022", collection: "canyonlands", orientation: "portrait", alt: "Weathered sandstone formation rising beneath a dark Canyonlands sky", flickr: "https://www.flickr.com/photos/carrera47/52059513843/" },
   { id: "52058441442", src: "/photos/canyon-98.jpg", title: "Night Sentinel", location: "Canyonlands, Utah", year: "2022", collection: "canyonlands", orientation: "portrait", alt: "Tall sandstone tower illuminated against the night sky", flickr: "https://www.flickr.com/photos/carrera47/52058441442/" },
   { id: "52059513353", src: "/photos/canyon-75.jpg", title: "Under a Canyonlands Sky", location: "Canyonlands, Utah", year: "2022", collection: "canyonlands", orientation: "landscape", alt: "Rock formations illuminated beneath a star-filled sky in Canyonlands", flickr: "https://www.flickr.com/photos/carrera47/52059513353/" },
@@ -93,11 +172,43 @@ export const photos: Photo[] = [
   { id: "51667437882", src: "/photos/capitol-02.jpg", title: "Red Rock Rhythm", location: "Capitol Reef, Utah", year: "2020", collection: "capitol-reef", orientation: "landscape", alt: "Layered red-rock formations in Capitol Reef National Park", flickr: "https://www.flickr.com/photos/carrera47/51667437882/" },
 ];
 
+const curatedById = new Map(curatedPhotos.map((photo) => [photo.id, photo]));
+
+export const photos: Photo[] = flickrCatalog.photos.map((item) => {
+  const curated = curatedById.get(item.id);
+  const collectionSlugs = Array.from(new Set([
+    ...item.collectionSlugs,
+    ...(curated ? [curated.collection] : []),
+  ]));
+  return {
+    id: item.id,
+    src: item.src,
+    thumb: item.thumb,
+    title: item.title,
+    location: item.location,
+    year: item.year,
+    collection: collectionSlugs.find((slug) => slug !== "complete-archive") || "complete-archive",
+    collectionSlugs,
+    themes: item.themes,
+    alt: item.alt,
+    orientation: item.orientation as Photo["orientation"],
+    flickr: item.flickr,
+    description: item.description,
+    dateTaken: item.dateTaken,
+    dominantColor: item.dominantColor,
+    brightness: item.brightness,
+    width: item.width,
+    height: item.height,
+    views: item.views,
+    ...curated,
+    collectionSlugs,
+  };
+});
+
 export function getCollection(slug: string) {
   return collections.find((collection) => collection.slug === slug);
 }
 
 export function getCollectionPhotos(slug: string) {
-  return photos.filter((photo) => photo.collection === slug);
+  return photos.filter((photo) => photo.collectionSlugs?.includes(slug) || photo.collection === slug);
 }
-
