@@ -615,8 +615,7 @@ footer p {
   overflow: hidden;
 }
 
-.collection-card:nth-child(4n + 1) .collection-image,
-.collection-card:nth-child(4n + 4) .collection-image,
+.collection-card .collection-image,
 .index-card-image {
   aspect-ratio: 16 / 10;
 }
@@ -630,11 +629,6 @@ footer p {
 .index-card-image img {
   inset: 0;
   position: absolute;
-}
-
-.collection-card:nth-child(4n + 2) .collection-image,
-.collection-card:nth-child(4n + 3) .collection-image {
-  aspect-ratio: 4 / 5;
 }
 
 .collection-image img,
