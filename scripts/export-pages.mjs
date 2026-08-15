@@ -51,6 +51,7 @@ function addBasePath(html) {
   return html
     .replaceAll('="/_next/', `="${basePath}/_next/`)
     .replaceAll('="/photos/', `="${basePath}/photos/`)
+    .replaceAll('="/bob-logo-light.png', `="${basePath}/bob-logo-light.png`)
     .replaceAll('href="/collections', `href="${basePath}/collections`)
     .replaceAll('href="/stories/', `href="${basePath}/stories/`)
     .replaceAll('href="/contact', `href="${basePath}/contact`)

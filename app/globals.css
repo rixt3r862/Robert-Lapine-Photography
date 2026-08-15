@@ -76,16 +76,19 @@ img {
   text-transform: uppercase;
 }
 
-.wordmark span {
+.brand-mark {
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.72);
   display: flex;
-  font-family: Georgia, serif;
-  font-size: 14px;
-  height: 38px;
+  height: 50px;
   justify-content: center;
-  letter-spacing: -0.04em;
-  width: 38px;
+  width: 68px;
+}
+
+.brand-mark img {
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  width: 100%;
 }
 
 .wordmark strong {
@@ -1223,6 +1226,11 @@ footer p {
   .site-header {
     height: 70px;
     padding: 0 20px;
+  }
+
+  .brand-mark {
+    height: 42px;
+    width: 58px;
   }
 
   .wordmark strong,

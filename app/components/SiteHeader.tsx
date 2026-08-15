@@ -4,7 +4,9 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
   return (
     <header className={`site-header${overlay ? " overlay" : ""}`}>
       <a className="wordmark" href="/" aria-label="Robert Lapine Photography home">
-        <span>RL</span>
+        <span className="brand-mark" aria-hidden="true">
+          <img src="/bob-logo-light.png" alt="" />
+        </span>
         <strong>Robert Lapine Photography</strong>
       </a>
       <nav aria-label="Main navigation">
